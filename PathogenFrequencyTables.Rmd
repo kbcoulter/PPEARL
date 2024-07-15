@@ -1,0 +1,53 @@
+---
+title: "Baker_Freq"
+output: html_document
+date: "2024-07-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(ggstats)
+```
+
+## R Markdown
+
+```{r}
+data_carp = read.csv("Dataset/CarpeData.csv")
+data_meep = read.csv("Dataset/MEEPData.csv")
+head(data_carp)
+head(data_meep)
+```
+## Frequency of Carp
+```{r}
+n = length(data_carp$virus_1)
+virus2 = na.omit(data_carp$virus_2)
+virus3 = na.omit(data_carp$virus_3)
+total_virus = c(data_carp$virus_1, virus2,virus3)
+total_virus = replace_na(total_virus,0)
+virus_counts = table(total_virus)
+virus_counts = data.frame(virus_counts)
+virus_counts = mutate(virus_counts, Freq=Freq/n)
+
+p = ggplot(virus_counts) + geom_bar(aes(x=total_virus,y=Freq),stat = "identity") + xlab(" Virus Pathogen ID") + ylab("Percentage") + ggtitle("Percentage of Virus Pathogens in Cases")
+p
+```
+
+```{r}
+table(data_carp$bacteria_1,useNA="always")
+```
+## Frequency of Meep
+```{r}
+n = length(data_meep$virus_1)
+total_virus = replace_na(data_meep$virus_1,0)
+virus_counts = table(total_virus)
+virus_counts = data.frame(virus_counts)
+virus_counts = mutate(virus_counts, Freq=Freq/n)
+p = ggplot(virus_counts) + geom_bar(aes(x=total_virus,y=Freq),stat = "identity") + xlab(" Virus Pathogen ID") + ylab("Percentage") + ggtitle("Percentage of Virus Pathogens in Controls")
+p
+```
+
+```{r}
+table(data_meep$bacteria_1,useNA="always")
+```
