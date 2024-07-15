@@ -11,7 +11,7 @@ library(ggplot2)
 library(ggstats)
 ```
 
-## R Markdown
+## Loading Data
 
 ```{r}
 data_carp = read.csv("Dataset/CarpeData.csv")
@@ -35,7 +35,12 @@ p
 ```
 
 ```{r}
-table(data_carp$bacteria_1,useNA="always")
+n = length(data_carp$bacteria_1)
+total_bact = replace_na(data_carp$bacteria_1, 0)
+bact_count = data.frame(table(total_bact))
+bact_count = mutate(bact_count, Freq=Freq/n)
+p = ggplot(bact_count) + geom_bar(aes(x=total_bact,y=Freq),stat = "identity") + xlab("Bacteria Pathogen ID") + ylab("Percentage") + ggtitle("Percentage of Bacteria Pathogens in Cases")
+p
 ```
 ## Frequency of Meep
 ```{r}
