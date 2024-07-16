@@ -8,6 +8,8 @@ library(readxl)
 # Set Carpe File Path, Threshold, columns where 0 fill are needed (NA -> 0), and columns to omit
 c_filepath = "copy of CarpeData.csv"
 m_filepath = "Copy of MEEPData.xlsx"
+l_filepath = "LilliamKAwardDatasetSpecifications.xlsx"
+
 threshold = 0.9
 
 fill_columns = c("virus_1", "virus_2",	"virus_3",	"bacteria_1")
@@ -22,7 +24,7 @@ columns_to_cut = c('transed', 'sx19_oth1', 'sxdays19_1', 'sx19_oth2', 'sx19_oth3
 
 meep = read_excel(m_filepath)
 carpe = read.csv(c_filepath)
-rows = nrow(carpe)
+lilliam = read_excel(l_filepath)
 
 # Drop specified columns from the Dataframe
 carpe_inter <- carpe[, !(names(carpe) %in% columns_to_cut)]
@@ -53,8 +55,23 @@ carpe_clean$study_id <- as.character(carpe_clean$study_id)
 carpe_clean$study_id <- sapply(carpe_clean$study_id, function(x) paste0("c", x))
 
 # meep -> "m" 
-#### MEEP NOT CLEANED BELOW###
 stringsAsFactors = FALSE
 meep$study_id <- as.character(meep$study_id)
 meep$study_id <- sapply(meep$study_id, function(x) paste0("m", x))
+
+# Function: get_description -> see descriptions of columns in df
+lil_desc = select(lilliam, `Variable Name`, `Variable Description`)
+get_description <- function(df) {
+  left_trans <- df %>%
+    t() %>%
+    as.data.frame() %>%
+    rownames_to_column(var = "Variable Name") %>%
+    select(`Variable Name`)
+  
+  result <- inner_join(left_trans, lil_desc, by = "Variable Name")
+  return(result)
+}
+
+# See Descriptions for current carpe df
+carpe_clean_desc = get_description(carpe_clean)
 
