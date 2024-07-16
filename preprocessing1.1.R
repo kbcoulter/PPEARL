@@ -72,6 +72,8 @@ get_description <- function(df) {
   return(result)
 }
 
-# See Descriptions for current carpe df
+# See Descriptions and cut unwanted for current carpe df
 carpe_clean_desc = get_description(carpe_clean)
+carpe_clean_desc <- carpe_clean_desc[-c(5,7,10,11,12,13,35,36,38,41:57,60,62,63,65,66,67,69,72,73,97,98,101,102,103,104,105:130,133:154,156,157,158,159:180,193,194,196:198,201:202,204),]
+carpe_clean_desc = rownames(carpe_clean_desc) = 1:nrow(carpe_clean_desc)
 
