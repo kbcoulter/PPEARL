@@ -72,8 +72,61 @@ get_description <- function(df) {
   return(result)
 }
 
-# See Descriptions and cut unwanted for current carpe df
+# Further Cutting carpe
+
+# carpe_clean_desc: descriptions of carpe clean
 carpe_clean_desc = get_description(carpe_clean)
-carpe_clean_desc <- carpe_clean_desc[-c(5,7,10,11,12,13,35,36,38,41:57,60,62,63,65,66,67,69,72,73,97,98,101,102,103,104,105:130,133:154,156,157,158,159:180,193,194,196:198,201:202,204),]
-carpe_clean_desc = rownames(carpe_clean_desc) = 1:nrow(carpe_clean_desc)
+
+# Cut description df to only the desired columns
+carpe_clean_desc = carpe_clean_desc[-c(5,7,10,11,12,13,35,36,38,41:57,60,62,63,65,66,67,69,72,73,97,98,101,102,103,104,105:130,133:154,156,157,158,159:180,193,194,196:198,201:202,204),]
+rownames(carpe_clean_desc) = 1:nrow(carpe_clean_desc)
+
+# carpe_clean_filtered: matching columns from carpe_clean and carpe_clean_desc
+carpe_clean_desc <- carpe_clean_desc %>%
+  select(1) %>%
+  t() %>%
+  as.data.frame(stringsAsFactors = FALSE)
+  
+colnames(carpe_clean_desc) <- carpe_clean_desc[1, ]
+carpe_clean_desc <- carpe_clean_desc[-1, , drop = FALSE]
+carpe_matching_columns <- colnames(carpe_clean_desc)
+
+carpe_clean_filtered <- carpe_clean %>%
+  select(any_of(carpe_matching_columns))
+
+# Function: vis_corr_matrix -> create a Visual Correlation Matrix
+vis_corr_matrix <- function(df) {
+  df = subset(df, select = -c(study_id))
+  M = cor(df)
+  return(corrplot(M, method="circle"))
+}
+
+# Function: flat_corr_matrix -> flatten A Correlation Matrix
+flat_corr_matrix <- function(corr, p) {
+  ut = upper.tri(corr)
+  data.frame(
+    variable1 = rownames(corr)[row(corr)[ut]],
+    variable2 = colnames(corr)[col(corr)[ut]],
+    correlation = corr[ut],
+    p_value = p[ut]
+  )
+}
+
+# Function: list_corr_matrix -> return a List of Unique Correlations
+list_corr_matrix <- function(df) {
+  df = subset(df, select = -c(study_id))
+  res = rcorr(as.matrix(df))
+  
+  result = flat_corr_matrix(res$r, res$P)
+  
+  result_unique <- result %>%
+    group_by(variable1, variable2) %>%
+    filter(n() == 1) %>%
+    ungroup()
+  
+  return(result_unique)
+}
+
+# correlations: correlations from carpe_clean_filtered
+correlations = list_corr_matrix(carpe_clean_filtered)
 
