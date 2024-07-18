@@ -1,13 +1,14 @@
 #Data Preprocessing
 
-# Imports
+# Imports ----------------------------------------------------------------------
 library(dplyr)
 library(tidyverse)
 library(readxl)
 library(corrplot)
 library(Hmisc)
 
-# Set Carpe File Path, Threshold, columns where 0 fill are needed (NA -> 0), and columns to omit
+# Data Collection / Organization------------------------------------------------
+##### Set File Path, threshold, columns needing NA -> 0, columns to omit
 c_filepath = "copy of CarpeData.csv"
 m_filepath = "Copy of MEEPData.xlsx"
 l_filepath = "LilliamKAwardDatasetSpecifications.xlsx"
@@ -15,54 +16,45 @@ l_filepath = "LilliamKAwardDatasetSpecifications.xlsx"
 threshold = 0.9
 
 fill_columns = c("virus_1", "virus_2",	"virus_3",	"bacteria_1")
-columns_to_cut = c('transed', 'sx19_oth1', 'sxdays19_1', 'sx19_oth2', 'sx19_oth3', 'fuwhere1', 'fuwhere_oth1', 
-                   'fuabxchgoth1', 'sx19_oth4', 'indeathdat', 'sx19_oth5', 'immun_ageno', 'edurinmeth', 'edcxrint_oth', 'immun_age', 
-                   'immun_ageu', 'abx_name_oth', 'concern_about', 'zipcode', 'edurinvol', 'edurindat', 'edurintm', 'edurinno', 'edurinno_oth', 
-                   'edsampfrig_dat2', 'edsampfrig_tm2', 'indx13dat', 'indeathdat', 'inurinvol', 'inurindat', 'inurintm', 'inurinno_oth', 
-                   'insampfrig_urin_dat', 'insampfrig_urin_tm', 'readdat1', 'readtim1', 'rexfericuwhy_oth1', 'redx13dat2', 'rexfericudat2',
-                   'rexfericuwhy_oth2', 'readdat3', 'readtim3', 'readdiag13', 'redx13dat3', 'rexfericuwhy_oth3', 'fusx_oth', 'fuabxnottk_oth', 
-                   'fuqol', 'fuwhere_oth1', 'fuabxchgoth1', 'bnbionbr', 'race___1', 'race___', 'race___3', 'race___4', 'race___5', 'race___6', 
-                   'race___99', 'race_oth', 'ethnicity', 'sch_mother')
+
+columns_to_cut= c('transed','sx19_oth1','sxdays19_1','sx19_oth2','sx19_oth3','fuwhere1','fuwhere_oth1','fuabxchgoth1','sx19_oth4','indeathdat','sx19_oth5','immun_ageno','edurinmeth','edcxrint_oth','immun_age','immun_ageu','abx_name_oth','concern_about','zipcode','edurinvol','edurindat','edurintm','edurinno','edurinno_oth','edsampfrig_dat2','edsampfrig_tm2','indx13dat','indeathdat','inurinvol','inurindat','inurintm','inurinno_oth','insampfrig_urin_dat','insampfrig_urin_tm','readdat1','readtim1','rexfericuwhy_oth1','redx13dat2','rexfericudat2','rexfericuwhy_oth2','readdat3','readtim3','readdiag13','redx13dat3','rexfericuwhy_oth3','fusx_oth','fuabxnottk_oth','fuqol','fuwhere_oth1','fuabxchgoth1','bnbionbr','race___1','race___','race___3','race___4','race___5','race___6','race___99','race_oth','ethnicity','sch_mother','study_id','season','age_yr','gender','dxrad','dxeczema','dxpneu','premie','immun','fluvac','ill_days','sx___1','sx___2','sx___3','sx___4','sx___5','sx___6','sx___7','sx___8','sx___9','sx___10','sx___11','sx___12','sx___13','sx___14','sx___15','sx___16','sx___17','sx2q1','abx','abx_start','cort','cort_start','smokers','expsmoke_hrs','edcxrint___1','edcxrint___2','edcxrint___3','edcxrint___4','edcxrint___5','edcxrint___6','edcxrint___7','edcxrint___8','edcxrint___9','edcxrint___10','edcxrint___11','edcxrint___12','edcxrint___13','edcxrint___14','edcxrint___15','edcxrint___16','edcxrint___17','edcxrint___18','edcxrint___19','edcxrint___98','edcxrint___99','indx13','indeath','bnrslt','abxb4ed','abxedrx','virus_1','virus_2','virus_3','bacteria_1','virus_only','bacteria_only','virus_bacteria','STGG_lytA_Ct','STGG_lytA_Copies','WBC1','CRP1','PCT1','radreviews','anyICU','los','severity2')
+length(columns_to_cut)
 
 meep = read_excel(m_filepath)
 carpe = read.csv(c_filepath)
 lilliam = read_excel(l_filepath)
+lil_desc = select(lilliam, `Variable Name`, `Variable Description`)
 
-# Drop specified columns from the Dataframe
-carpe <- carpe[, !(names(carpe) %in% columns_to_cut)]
-
-# Replace NA with 0 in the specified columns
-carpe[fill_columns] = lapply(carpe[fill_columns], function(x) {
-  x[is.na(x)] = 0
-  return(x)
-})
-
-# Replace all values of 99 with NA in the data frame (99 = Unknown)
-carpe[] = lapply(carpe, function(x) {
-  x[x == 99] = NA
-  return(x)
-})
-
-# Dropping Data Below Specified Missing Threshold ("Drop" Holds All Dropped Columns)
-thresh = threshold * nrow(carpe)
-missing = sapply(carpe, function(x) sum(is.na(x)))
-drop = names(missing[missing > thresh])
-carpe_clean = carpe[, !(names(carpe) %in% drop)]
-#ncol(carpe_clean)
-
-# Differentiating Study ID's
+##### Differentiating Study ID's
 # carpe -> "c"
 stringsAsFactors = FALSE 
-carpe_clean$study_id <- as.character(carpe_clean$study_id)
-carpe_clean$study_id <- sapply(carpe_clean$study_id, function(x) paste0("c", x))
+carpe$study_id <- as.character(carpe$study_id)
+carpe$study_id <- sapply(carpe$study_id, function(x) paste0("c", x))
 
 # meep -> "m" 
 stringsAsFactors = FALSE
 meep$study_id <- as.character(meep$study_id)
 meep$study_id <- sapply(meep$study_id, function(x) paste0("m", x))
 
-# Function: get_description -> see descriptions of columns in df
-lil_desc = select(lilliam, `Variable Name`, `Variable Description`)
+##### Merging Data
+all_columns <- union(names(carpe), names(meep))
+
+# Missing columns to carpe w/ NA
+missing_cols_carpe <- setdiff(all_columns, names(carpe))
+for (col in missing_cols_carpe) {
+  carpe[[col]] <- NA
+}
+
+# Missing columns to meep w/ NA
+missing_cols_meep <- setdiff(all_columns, names(meep))
+for (col in missing_cols_meep) {
+  meep[[col]] <- NA
+}
+
+merged <- merge(carpe, meep, by = intersect(names(carpe), names(meep)), all = TRUE)
+
+# Functions --------------------------------------------------------------------
+##### Function: get_description -> see descriptions of columns in df
 get_description <- function(df) {
   left_trans <- df %>%
     t() %>%
@@ -74,24 +66,73 @@ get_description <- function(df) {
   return(result)
 }
 
-# Further Cutting carpe
+# Merged Work ------------------------------------------------------------------
 
-# carpe_clean_desc: descriptions of carpe clean
-carpe_clean_desc = get_description(carpe_clean)
+##### Replace NA with 0 in the specified columns
+merged[fill_columns] = lapply(merged[fill_columns], function(x) {
+  x[is.na(x)] = 0
+  return(x)
+})
 
-# Cut description df to only the desired columns
-carpe_clean_desc = carpe_clean_desc[-c(5,7,10,11,12,13,35,36,38,41:57,60,62,63,65,66,67,69,72,73,97,98,101,102,103,104,105:130,133:154,156,157,158,159:180,193,194,196:198,201:202,204),]
-rownames(carpe_clean_desc) = 1:nrow(carpe_clean_desc)
+##### Drop rows where viral and bacterial tests were not run
+merged <- merged %>%
+  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
 
-# carpe_clean_filtered: matching columns from carpe_clean and carpe_clean_desc
-carpe_clean_desc <- carpe_clean_desc %>%
-  select(1) %>%
-  t() %>%
-  as.data.frame(stringsAsFactors = FALSE)
-  
-colnames(carpe_clean_desc) <- carpe_clean_desc[1, ]
-carpe_clean_desc <- carpe_clean_desc[-1, , drop = FALSE]
-carpe_matching_columns <- colnames(carpe_clean_desc)
+##### Drop specified columns from the Dataframe
+merged <- merged[, !(names(merged) %in% columns_to_cut)]
 
-carpe_clean_filtered <- carpe_clean %>%
-  select(any_of(carpe_matching_columns))
+##### Replace all values of 99 with NA in the data frame (99 = Unknown)
+merged[] = lapply(merged, function(x) {
+  x[x == 99] = NA
+  return(x)
+})
+
+merged[] = lapply(merged, function(x) {
+  x[x == '99'] = NA
+  return(x)
+})
+
+##### Dropping Data Below Specified Missing Threshold ("Drop" Holds All Dropped Columns)
+thresh = threshold * nrow(merged)
+missing = sapply(merged, function(x) sum(is.na(x)))
+drop = names(missing[missing > thresh])
+merged_clean = merged[, !(names(merged) %in% drop)]
+#ncol(merged_clean)
+
+write.csv(merged, "merged_data.csv", row.names = FALSE)
+
+############################################################################################################
+# Old Carpe Preprocessing ~ Should no longer be necessary
+                 
+##### Replace NA with 0 in the specified columns
+carpe[fill_columns] = lapply(carpe[fill_columns], function(x) {
+  x[is.na(x)] = 0
+  return(x)
+})
+
+##### Drop rows where viral and bacterial tests were not run
+carpe <- carpe %>%
+  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
+
+##### Drop specified columns from the Dataframe
+carpe <- carpe[, !(names(carpe) %in% columns_to_cut)]
+
+##### Replace all values of 99 with NA in the data frame (99 = Unknown)
+carpe[] = lapply(carpe, function(x) {
+  x[x == 99] = NA
+  return(x)
+})
+
+carpe[] = lapply(carpe, function(x) {
+  x[x == '99'] = NA
+  return(x)
+})
+
+##### Dropping Data Below Specified Missing Threshold ("Drop" Holds All Dropped Columns)
+thresh = threshold * nrow(carpe)
+missing = sapply(carpe, function(x) sum(is.na(x)))
+drop = names(missing[missing > thresh])
+carpe_clean = carpe[, !(names(carpe) %in% drop)]
+#ncol(carpe_clean)
+
+#write.csv(carpe, "carpe_data.csv", row.names = FALSE)
