@@ -29,7 +29,7 @@ carpe = read.csv(c_filepath)
 lilliam = read_excel(l_filepath)
 
 # Drop specified columns from the Dataframe
-carpe_inter <- carpe[, !(names(carpe) %in% columns_to_cut)]
+carpe <- carpe[, !(names(carpe) %in% columns_to_cut)]
 
 # Replace NA with 0 in the specified columns
 carpe[fill_columns] = lapply(carpe[fill_columns], function(x) {
