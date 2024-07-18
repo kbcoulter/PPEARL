@@ -17,8 +17,8 @@ threshold = 0.9
 
 fill_columns = c("virus_1", "virus_2",	"virus_3",	"bacteria_1")
 
-columns_to_cut= c('transed','sx19_oth1','sxdays19_1','sx19_oth2','sx19_oth3','fuwhere1','fuwhere_oth1','fuabxchgoth1','sx19_oth4','indeathdat','sx19_oth5','immun_ageno','edurinmeth','edcxrint_oth','immun_age','immun_ageu','abx_name_oth','concern_about','zipcode','edurinvol','edurindat','edurintm','edurinno','edurinno_oth','edsampfrig_dat2','edsampfrig_tm2','indx13dat','indeathdat','inurinvol','inurindat','inurintm','inurinno_oth','insampfrig_urin_dat','insampfrig_urin_tm','readdat1','readtim1','rexfericuwhy_oth1','redx13dat2','rexfericudat2','rexfericuwhy_oth2','readdat3','readtim3','readdiag13','redx13dat3','rexfericuwhy_oth3','fusx_oth','fuabxnottk_oth','fuqol','fuwhere_oth1','fuabxchgoth1','bnbionbr','race___1','race___','race___3','race___4','race___5','race___6','race___99','race_oth','ethnicity','sch_mother','study_id','season','age_yr','gender','dxrad','dxeczema','dxpneu','premie','immun','fluvac','ill_days','sx___1','sx___2','sx___3','sx___4','sx___5','sx___6','sx___7','sx___8','sx___9','sx___10','sx___11','sx___12','sx___13','sx___14','sx___15','sx___16','sx___17','sx2q1','abx','abx_start','cort','cort_start','smokers','expsmoke_hrs','edcxrint___1','edcxrint___2','edcxrint___3','edcxrint___4','edcxrint___5','edcxrint___6','edcxrint___7','edcxrint___8','edcxrint___9','edcxrint___10','edcxrint___11','edcxrint___12','edcxrint___13','edcxrint___14','edcxrint___15','edcxrint___16','edcxrint___17','edcxrint___18','edcxrint___19','edcxrint___98','edcxrint___99','indx13','indeath','bnrslt','abxb4ed','abxedrx','virus_1','virus_2','virus_3','bacteria_1','virus_only','bacteria_only','virus_bacteria','STGG_lytA_Ct','STGG_lytA_Copies','WBC1','CRP1','PCT1','radreviews','anyICU','los','severity2')
-length(columns_to_cut)
+columns_to_cut= c('transed','sx19_oth1','sxdays19_1','sx19_oth2','sx19_oth3','fuwhere1','fuwhere_oth1','fuabxchgoth1','sx19_oth4','indeathdat','sx19_oth5','immun_ageno','edurinmeth','edcxrint_oth','immun_age','immun_ageu','abx_name_oth','concern_about','zipcode','edurinvol','edurindat','edurintm','edurinno','edurinno_oth','edsampfrig_dat2','edsampfrig_tm2','indx13dat','indeathdat','inurinvol','inurindat','inurintm','inurinno_oth','insampfrig_urin_dat','insampfrig_urin_tm','readdat1','readtim1','rexfericuwhy_oth1','redx13dat2','rexfericudat2','rexfericuwhy_oth2','readdat3','readtim3','readdiag13','redx13dat3','rexfericuwhy_oth3','fusx_oth','fuabxnottk_oth','fuqol','fuwhere_oth1','fuabxchgoth1','bnbionbr','race___1','race___','race___3','race___4','race___5','race___6','race___99','race_oth','ethnicity','sch_mother','study_id','season','age_yr','gender','dxrad','dxeczema','dxpneu','premie','immun','fluvac','ill_days','sx___1','sx___2','sx___3','sx___4','sx___5','sx___6','sx___7','sx___8','sx___9','sx___10','sx___11','sx___12','sx___13','sx___14','sx___15','sx___16','sx___17','sx2q1','abx','abx_start','cort','cort_start','smokers','expsmoke_hrs','edcxrint___1','edcxrint___2','edcxrint___3','edcxrint___4','edcxrint___5','edcxrint___6','edcxrint___7','edcxrint___8','edcxrint___9','edcxrint___10','edcxrint___11','edcxrint___12','edcxrint___13','edcxrint___14','edcxrint___15','edcxrint___16','edcxrint___17','edcxrint___18','edcxrint___19','edcxrint___98','edcxrint___99','indx13','indeath','bnrslt','abxb4ed','abxedrx','virus_only','bacteria_only','virus_bacteria','STGG_lytA_Ct','STGG_lytA_Copies','WBC1','CRP1','PCT1','radreviews','anyICU','los','severity2')
+#length(columns_to_cut)
 
 meep = read_excel(m_filepath)
 carpe = read.csv(c_filepath)
@@ -51,6 +51,11 @@ for (col in missing_cols_meep) {
   meep[[col]] <- NA
 }
 
+##### Drop rows where viral and bacterial tests were not run 
+# For Merged, Carpe, NOT MEEP
+carpe <- carpe %>%
+  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
+
 merged <- merge(carpe, meep, by = intersect(names(carpe), names(meep)), all = TRUE)
 
 # Functions --------------------------------------------------------------------
@@ -73,10 +78,6 @@ merged[fill_columns] = lapply(merged[fill_columns], function(x) {
   x[is.na(x)] = 0
   return(x)
 })
-
-##### Drop rows where viral and bacterial tests were not run
-merged <- merged %>%
-  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
 
 ##### Drop specified columns from the Dataframe
 merged <- merged[, !(names(merged) %in% columns_to_cut)]
@@ -101,18 +102,13 @@ merged_clean = merged[, !(names(merged) %in% drop)]
 
 write.csv(merged, "merged_data.csv", row.names = FALSE)
 
-############################################################################################################
-# Old Carpe Preprocessing ~ Should no longer be necessary
+#Carpe Work ------------------------------------------------------------------
                  
 ##### Replace NA with 0 in the specified columns
 carpe[fill_columns] = lapply(carpe[fill_columns], function(x) {
   x[is.na(x)] = 0
   return(x)
 })
-
-##### Drop rows where viral and bacterial tests were not run
-carpe <- carpe %>%
-  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
 
 ##### Drop specified columns from the Dataframe
 carpe <- carpe[, !(names(carpe) %in% columns_to_cut)]
@@ -135,4 +131,35 @@ drop = names(missing[missing > thresh])
 carpe_clean = carpe[, !(names(carpe) %in% drop)]
 #ncol(carpe_clean)
 
-#write.csv(carpe, "carpe_data.csv", row.names = FALSE)
+write.csv(carpe_clean, "carpe_clean.csv", row.names = FALSE)
+
+# Meep Work ------------------------------------------------------------------
+
+##### Replace NA with 0 in the specified columns
+meep[fill_columns] = lapply(meep[fill_columns], function(x) {
+  x[is.na(x)] = 0
+  return(x)
+})
+
+##### Drop specified columns from the Dataframe
+meep <- meep[, !(names(meep) %in% columns_to_cut)]
+
+##### Replace all values of 99 with NA in the data frame (99 = Unknown)
+meep[] = lapply(meep, function(x) {
+  x[x == 99] = NA
+  return(x)
+})
+
+meep[] = lapply(meep, function(x) {
+  x[x == '99'] = NA
+  return(x)
+})
+
+##### Dropping Data Below Specified Missing Threshold ("Drop" Holds All Dropped Columns)
+thresh = threshold * nrow(meep)
+missing = sapply(meep, function(x) sum(is.na(x)))
+drop = names(missing[missing > thresh])
+meep_clean = meep[, !(names(meep) %in% drop)]
+#ncol(meep_clean)
+
+write.csv(meep_clean, "meep_clean.csv", row.names = FALSE)
