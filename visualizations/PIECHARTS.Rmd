@@ -1,7 +1,7 @@
 ---
-title: "Baker_PIECHARTS"
+title: "Baker_Freq"
 output: html_document
-date: "2024-07-22"
+date: "2024-07-11"
 ---
 
 ```{r setup, include=FALSE}
@@ -45,7 +45,7 @@ virus_counts = table(Virus_Pathogen_ID)
 virus_counts = data.frame(virus_counts)
 virus_counts = mutate(virus_counts, Freq=Freq/n)
 
-p = ggplot(virus_counts, aes(x= "",y = Freq, fill = Virus_Pathogen_ID)) + geom_bar(stat = "identity", width = 1, color = "black") + coord_polar("y", start= 0) + theme_void()
+p = ggplot(virus_counts, aes(x= "",y = Freq, fill = Virus_Pathogen_ID)) + geom_bar(stat = "identity", width = 1, color = "white") + coord_polar("y", start= 0) + theme_void() + scale_fill_viridis_d()
 p
 ```
  # Carpe_Bacteria Frequency
@@ -91,7 +91,7 @@ Virus_Path_ID <- ifelse(Virus_Path_ID == 11, "11_Human Bocavirus" , Virus_Path_I
 virus_counts = table(Virus_Path_ID)
 virus_counts = data.frame(virus_counts)
 virus_counts = mutate(virus_counts, Freq=Freq/n)
-p = ggplot(virus_counts) + geom_bar(aes(x="",y=Freq, fill = Virus_Path_ID),stat = "identity", width =1, color  ="black") + coord_polar("y", start = 0) + theme_void()
+p = ggplot(virus_counts) + geom_bar(aes(x="",y=Freq, fill = Virus_Path_ID),stat = "identity", width =1, color  ="white") + coord_polar("y", start = 0) + theme_void() + scale_fill_viridis_d()
 p
 ```
 
