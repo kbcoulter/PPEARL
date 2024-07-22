@@ -59,7 +59,7 @@ Bacteria_ID <- ifelse(Bacteria_ID == 6, "06_Staphylococcus Aureus" , Bacteria_ID
 
 bact_count = data.frame(table(Bacteria_ID))
 bact_count = mutate(bact_count, Freq=Freq/n)
-p = ggplot(bact_count) + geom_bar(aes(x="",y=Freq, fill = Bacteria_ID),stat = "identity", width = 1, color = "black") + coord_polar("y", start = 0) + theme_void()
+p = ggplot(bact_count) + geom_bar(aes(x="",y=Freq, fill = Bacteria_ID),stat = "identity", width = 1, color = "white") + coord_polar("y", start = 0) + theme_void() + scale_fill_viridis_d()
 p
 ```
 ## Frequency of Meep Viruses
