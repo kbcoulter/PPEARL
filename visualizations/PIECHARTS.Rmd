@@ -1,7 +1,7 @@
 ---
-title: "Baker_Freq"
+title: "Baker_PIECHARTS"
 output: html_document
-date: "2024-07-11"
+date: "2024-07-22"
 ---
 
 ```{r setup, include=FALSE}
@@ -12,7 +12,7 @@ library(ggstats)
 ```
 
 ## Loading Data
-## Use Preprocessing
+## Use Preprocessing "carpe_clean" and "meep_clean"
 ```{r}
 data_carp = carpe_clean
 data_meep = meep_clean
@@ -27,18 +27,18 @@ virus3 = na.omit(data_carp$virus_3)
 total_virus = c(data_carp$virus_1, virus2,virus3)
 Virus_Pathogen_ID = replace_na(total_virus,0)
 
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 0, "No Virus" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 1, "Influenza A" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 2, "Influenza B" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 3, "Parainfluenza 1" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 4, "Parainfluenza 2" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 5, "Parainfluenza 3" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 6, "RSV" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 7, "Human Metapneumovirus" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 8, "Enterovirus/Rhinovirus" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 9, "Adenovirus" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 10, "Coronavirus" , Virus_Pathogen_ID)
-Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 11, "Human Bocavirus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 0, "00_No Virus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 1, "01_Influenza A" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 2, "02_Influenza B" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 3, "03_Parainfluenza 1" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 4, "04_Parainfluenza 2" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 5, "05_Parainfluenza 3" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 6, "06_RSV" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 7, "07_Human Metapneumovirus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 8, "08_Enterovirus/Rhinovirus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 9, "09_Adenovirus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 10, "10_Coronavirus" , Virus_Pathogen_ID)
+Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 11, "11_Human Bocavirus" , Virus_Pathogen_ID)
 
 
 virus_counts = table(Virus_Pathogen_ID)
@@ -53,9 +53,9 @@ p
 n = length(data_carp$bacteria_1)
 Bacteria_ID = replace_na(data_carp$bacteria_1, 0)
 
-Bacteria_ID <- ifelse(Bacteria_ID == 0, "No Bacteria" , Bacteria_ID)
-Bacteria_ID <- ifelse(Bacteria_ID == 2, "Mycoplasma Pneumoniae" , Bacteria_ID)
-Bacteria_ID <- ifelse(Bacteria_ID == 6, "Staphylococcus Aureus" , Bacteria_ID)
+Bacteria_ID <- ifelse(Bacteria_ID == 0, "00_No Bacteria" , Bacteria_ID)
+Bacteria_ID <- ifelse(Bacteria_ID == 2, "02_Mycoplasma Pneumoniae" , Bacteria_ID)
+Bacteria_ID <- ifelse(Bacteria_ID == 6, "06_Staphylococcus Aureus" , Bacteria_ID)
 
 bact_count = data.frame(table(Bacteria_ID))
 bact_count = mutate(bact_count, Freq=Freq/n)
@@ -71,18 +71,18 @@ Virus_Path_ID = replace_na(data_meep$virus_1,0)
 
 
 
-Virus_Path_ID <- ifelse(Virus_Path_ID == 0, "No Virus" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 1, "Influenza A" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 2, "Influenza B" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 3, "Parainfluenza 1" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 4, "Parainfluenza 2" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 5, "Parainfluenza 3" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 6, "RSV" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 7, "Human Metapneumovirus" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 8, "Enterovirus/Rhinovirus" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 9, "Adenovirus" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 10, "Coronavirus" , Virus_Path_ID)
-Virus_Path_ID <- ifelse(Virus_Path_ID == 11, "Human Bocavirus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 0, "00_No Virus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 1, "01_Influenza A" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 2, "02_Influenza B" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 3, "03_Parainfluenza 1" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 4, "04_Parainfluenza 2" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 5, "05_Parainfluenza 3" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 6, "06_RSV" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 7, "07_Human Metapneumovirus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 8, "08_Enterovirus/Rhinovirus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 9, "09_Adenovirus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 10, "10_Coronavirus" , Virus_Path_ID)
+Virus_Path_ID <- ifelse(Virus_Path_ID == 11, "11_Human Bocavirus" , Virus_Path_ID)
 
 
 
