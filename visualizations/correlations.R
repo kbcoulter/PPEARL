@@ -1,6 +1,6 @@
-# Correlation Funcitons/Use
+##### Correlation Funcitons/Use
 
-#TODO: Change to import df from preprocessing with selected variables
+##### TODO: Change to import df from preprocessing with selected variables
 
 # Functions ------------------------------------------------
 ##### Function: vis_corr_matrix -> Create a Visual Correlation Matrix (Only Use with clean data)
