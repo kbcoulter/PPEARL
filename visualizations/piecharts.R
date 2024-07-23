@@ -39,7 +39,9 @@ virus_counts = mutate(virus_counts, Freq=Freq/n)
 
 p = ggplot(virus_counts, aes(x= "",y = Freq, fill = Virus_Pathogen_ID)) + geom_bar(stat = "identity", width = 1, color = "white") + coord_polar("y", start= 0) + theme_void() + scale_fill_viridis_d()
 p
-
+png("pie_chart1.png", width = 800, height = 800)
+print(p)
+dev.off()
 ##### Carpe_Bacteria Frequency
 
 n = length(data_carp$bacteria_1)
@@ -53,7 +55,9 @@ bact_count = data.frame(table(Bacteria_ID))
 bact_count = mutate(bact_count, Freq=Freq/n)
 q = ggplot(bact_count) + geom_bar(aes(x="",y=Freq, fill = Bacteria_ID),stat = "identity", width = 1, color = "white") + coord_polar("y", start = 0) + theme_void() + scale_fill_viridis_d()
 q
-
+png("pie_chart2.png", width = 800, height = 800)
+print(q)
+dev.off()
 ##### Frequency of Meep Viruses
 
 n = length(data_meep$virus_1)
@@ -79,4 +83,6 @@ virus_counts = mutate(virus_counts, Freq=Freq/n)
 r = ggplot(virus_counts) + geom_bar(aes(x="",y=Freq, fill = Virus_Path_ID),stat = "identity", width =1, color  ="white") + coord_polar("y", start = 0) + theme_void() + scale_fill_viridis_d()
 r
 
-
+png("pie_chart3.png", width = 800, height = 800)
+print(r)
+dev.off()
