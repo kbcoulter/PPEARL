@@ -1,7 +1,9 @@
-#Correlation Funcitons/Use
-#! Not complete, not importing carpe currently
+##### Correlation Funcitons/Use
 
-# Function: vis_corr_matrix -> create a Visual Correlation Matrix
+#TODO: Change to import df from preprocessing with selected variables
+
+##### Functions
+# Function: vis_corr_matrix -> Create a Visual Correlation Matrix (Only Use with clean data)
 vis_corr_matrix <- function(df) {
   df = subset(df, select = -c(study_id))
   M = cor(df)
@@ -34,5 +36,6 @@ list_corr_matrix <- function(df) {
   return(result_unique)
 }
 
+##### USE
 # correlations: correlations from carpe_clean_filtered
 correlations = list_corr_matrix(carpe_clean_filtered)
