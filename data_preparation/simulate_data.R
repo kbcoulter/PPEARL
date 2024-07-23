@@ -1,3 +1,4 @@
+library(baker)
 ##### Data Sim ~ Unchanged
 
 # Note: the example will only run 100 Gibbs sampling steps to save computing time.
@@ -49,24 +50,24 @@ seed_start <- 20161215
 set.seed(seed_start+seed_seq[SEG])
 
 if (scn == 3){
-  ThetaBS_withNA <- cbind(c(0.95,0.95,0.55,0.95,0.95,0.95),#subclass 1.
-                          c(0.95,0.55,0.95,0.55,0.55,0.55))#subclass 2.
-  PsiBS_withNA   <- cbind(c(0.4,0.4,0.05,0.2,0.2,0.2),     #subclass 1.
-                          c(0.05,0.05,0.4,0.05,0.05,0.05)) #subclass 2.
+  ThetaBS_withNA <- cbind(c(0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55),#subclass 1.
+                          c(0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95))#subclass 2.
+  PsiBS_withNA   <- cbind(c(0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05),     #subclass 1.
+                          c(0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4)) #subclass 2.
 }
 
 if (scn == 2){
-  ThetaBS_withNA <- cbind(c(0.95,0.9,0.85,0.9,0.9,0.9),   #subclass 1.
-                          c(0.95,0.9,0.95,0.9,0.9,0.9))   #subclass 2.
-  PsiBS_withNA   <- cbind(c(0.3,0.3,0.15,0.2,0.2,0.2),    #subclass 1.
-                          c(0.15,0.15,0.3,0.05,0.05,0.05))#subclass 2.
+  ThetaBS_withNA <- cbind(c(0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55),   #subclass 1.
+                          c(0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95))   #subclass 2.
+  PsiBS_withNA   <- cbind(c(0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05),    #subclass 1.
+                          c(0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4))#subclass 2.
 }
 
 if (scn == 1){
-  ThetaBS_withNA <- cbind(c(0.95,0.9,0.9,0.9,0.9,0.9),#subclass 1.
-                          c(0.95,0.9,0.9,0.9,0.9,0.9))#subclass 2.
-  PsiBS_withNA   <- cbind(c(0.25,0.25,0.2,0.15,0.15,0.15),#subclass 1.
-                          c(0.2,0.2,0.25,0.1,0.1,0.1))    #subclass 2.
+  ThetaBS_withNA <- cbind(c(0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55,0.95,0.95,0.95,0.95,0.95,0.55),#subclass 1.
+                          c(0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95,0.55,0.55,0.55,0.95,0.55,0.95))#subclass 2.
+  PsiBS_withNA   <- cbind(c(0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05,0.2,0.2,0.2,0.4,0.4,0.05),#subclass 1.
+                          c(0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4,0.05,0.05,0.05,0.05,0.05,0.4))    #subclass 2.
 }
 
 
@@ -74,7 +75,7 @@ if (scn == 1){
 # the following paramter names are set using names in the 'baker' package:
 set_parameter <- list(
   cause_list      = c(LETTERS[1:J]),
-  etiology        = c(0.5,0.2,0.15,0.05,0.05,0.05),# same length as cause_list.
+  etiology        = c(0.5,0.2,0.15,0.05,0.05,0.05,0.5,0.2,0.15,0.05,0.05,0.05,0.5,0.2,0.15,0.05,0.05,0.05,0.5,0.2,0.15),# same length as cause_list.
   pathogen_BrS    = LETTERS[1:J],
   meas_nm         = list(MBS = c("MBS1")), # a single source of Bronze Standard (BrS) data.
   Lambda          = lambda,              #ctrl mix (subclass weights).
@@ -91,3 +92,4 @@ set_parameter <- list(
 
 simu_out   <- simulate_nplcm(set_parameter)
 data_nplcm <- simu_out$data_nplcm
+data_nplcm
