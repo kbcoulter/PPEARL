@@ -16,7 +16,7 @@ working_dir <- tempdir() # <-- create a temporary directory.
 K.true  <- 5   # no. of latent subclasses in actual simulation. 
 # If eta = c(1,0), K.true is effectively 1.
 J       <- 21   # no. of pathogens.
-N       <- 250 # no. of cases/controls.
+N       <- 1436 # no. of cases/controls.
 
 # case subclass weight (five values):
 subclass_mix_seq <- c(0,0.25,0.5,0.75,1)
