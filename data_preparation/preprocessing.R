@@ -1,6 +1,6 @@
-#Data Preprocessing
+##### Data Preprocessing
 
-#TODO: Create cleaned dataframe from merged -> only the additional variables considered for model ( n < 16 )
+##### TODO: Create cleaned dataframe from merged -> only the additional variables considered for model ( n < 16 )
 
 # Imports ----------------------------------------------------------------------
 library(dplyr)
