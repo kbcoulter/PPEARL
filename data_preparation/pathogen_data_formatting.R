@@ -1,4 +1,4 @@
-
+# TODO: Import/ edit to work from complete "merged" or cleaned carpe and meep dataframe(s) from preprocessing.R
 
 carp_pathogens <- carpe_data |>
   select(virus_1, virus_2, virus_3, viraltestrun, bacteria_1, bacterialtestrun) |>
