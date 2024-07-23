@@ -1,16 +1,16 @@
-##### Correlation Funcitons/Use
+# Correlation Funcitons/Use
 
 #TODO: Change to import df from preprocessing with selected variables
 
-##### Functions
-# Function: vis_corr_matrix -> Create a Visual Correlation Matrix (Only Use with clean data)
+# Functions ------------------------------------------------
+##### Function: vis_corr_matrix -> Create a Visual Correlation Matrix (Only Use with clean data)
 vis_corr_matrix <- function(df) {
   df = subset(df, select = -c(study_id))
   M = cor(df)
   return(corrplot(M, method="circle"))
 }
 
-# Function: flat_corr_matrix -> flatten A Correlation Matrix
+##### Function: flat_corr_matrix -> flatten A Correlation Matrix
 flat_corr_matrix <- function(corr, p) {
   ut = upper.tri(corr)
   data.frame(
@@ -21,7 +21,7 @@ flat_corr_matrix <- function(corr, p) {
   )
 }
 
-# Function: list_corr_matrix -> return a List of Unique Correlations
+##### Function: list_corr_matrix -> return a List of Unique Correlations
 list_corr_matrix <- function(df) {
   df = subset(df, select = -c(study_id))
   res = rcorr(as.matrix(df))
@@ -36,6 +36,6 @@ list_corr_matrix <- function(df) {
   return(result_unique)
 }
 
-##### USE
-# correlations: correlations from carpe_clean_filtered
+# Use ------------------------------------------------
+##### correlations: correlations from carpe_clean_filtered
 correlations = list_corr_matrix(carpe_clean_filtered)
