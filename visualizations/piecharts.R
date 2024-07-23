@@ -1,21 +1,19 @@
-# Pie Charts
+##### Pie Charts
+##### TODO: Save plots locally from this file (to be run in config)
   
-
 library(tidyverse)
 library(ggplot2)
 library(ggstats)
 
-
-## Loading Data
-## Use Preprocessing "carpe_clean" and "meep_clean"
+##### Loading Data
+# Use Preprocessing "carpe_clean" and "meep_clean"
 
 data_carp = carpe_clean
 data_meep = meep_clean
 # head(data_carp)
 # head(data_meep)
 
-## Pie Chart Frequency of Carpe Viruses 
-
+##### Pie Chart Frequency of Carpe Viruses 
 n = length(data_carp$virus_1)
 virus2 = na.omit(data_carp$virus_2)
 virus3 = na.omit(data_carp$virus_3)
@@ -35,7 +33,6 @@ Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 9, "09_Adenovirus" , Virus_Path
 Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 10, "10_Coronavirus" , Virus_Pathogen_ID)
 Virus_Pathogen_ID <- ifelse(Virus_Pathogen_ID == 11, "11_Human Bocavirus" , Virus_Pathogen_ID)
 
-
 virus_counts = table(Virus_Pathogen_ID)
 virus_counts = data.frame(virus_counts)
 virus_counts = mutate(virus_counts, Freq=Freq/n)
@@ -43,7 +40,7 @@ virus_counts = mutate(virus_counts, Freq=Freq/n)
 p = ggplot(virus_counts, aes(x= "",y = Freq, fill = Virus_Pathogen_ID)) + geom_bar(stat = "identity", width = 1, color = "white") + coord_polar("y", start= 0) + theme_void() + scale_fill_viridis_d()
 p
 
-# Carpe_Bacteria Frequency
+##### Carpe_Bacteria Frequency
 
 n = length(data_carp$bacteria_1)
 Bacteria_ID = replace_na(data_carp$bacteria_1, 0)
@@ -57,14 +54,11 @@ bact_count = mutate(bact_count, Freq=Freq/n)
 q = ggplot(bact_count) + geom_bar(aes(x="",y=Freq, fill = Bacteria_ID),stat = "identity", width = 1, color = "white") + coord_polar("y", start = 0) + theme_void() + scale_fill_viridis_d()
 q
 
-## Frequency of Meep Viruses
+##### Frequency of Meep Viruses
 
 n = length(data_meep$virus_1)
 
 Virus_Path_ID = replace_na(data_meep$virus_1,0)
-
-
-
 
 Virus_Path_ID <- ifelse(Virus_Path_ID == 0, "00_No Virus" , Virus_Path_ID)
 Virus_Path_ID <- ifelse(Virus_Path_ID == 1, "01_Influenza A" , Virus_Path_ID)
@@ -78,10 +72,6 @@ Virus_Path_ID <- ifelse(Virus_Path_ID == 8, "08_Enterovirus/Rhinovirus" , Virus_
 Virus_Path_ID <- ifelse(Virus_Path_ID == 9, "09_Adenovirus" , Virus_Path_ID)
 Virus_Path_ID <- ifelse(Virus_Path_ID == 10, "10_Coronavirus" , Virus_Path_ID)
 Virus_Path_ID <- ifelse(Virus_Path_ID == 11, "11_Human Bocavirus" , Virus_Path_ID)
-
-
-
-
 
 virus_counts = table(Virus_Path_ID)
 virus_counts = data.frame(virus_counts)
