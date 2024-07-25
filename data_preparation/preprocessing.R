@@ -223,10 +223,12 @@ drop = names(missing[missing > thresh])
 merged_clean = merged[, !(names(merged) %in% drop)]
 #ncol(merged_clean)
 
-write.csv(merged, "merged_data.csv", row.names = FALSE)
+# write.csv(merged, "merged_data.csv", row.names = FALSE) #For no threshold drop
+write.csv(merged_clean, "merged_data.csv", row.names = FALSE)
 
 #Carpe Work ------------------------------------------------------------------
-                 
+#Can Comment Out Later if N/A
+
 ##### Replace NA with 0 in the specified columns
 carpe[fill_columns] = lapply(carpe[fill_columns], function(x) {
   x[is.na(x)] = 0
@@ -257,6 +259,7 @@ carpe_clean = carpe[, !(names(carpe) %in% drop)]
 write.csv(carpe_clean, "carpe_clean.csv", row.names = FALSE)
 
 # Meep Work ------------------------------------------------------------------
+#Can Comment Out Later if N/A
 
 ##### Replace NA with 0 in the specified columns
 meep[fill_columns] = lapply(meep[fill_columns], function(x) {
