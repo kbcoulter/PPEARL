@@ -1,4 +1,6 @@
-# TODO: Import/ edit to work from complete "merged" or cleaned carpe and meep dataframe(s) from preprocessing.R
+
+carpe_data <- carpe_clean
+meep <- meep_clean
 
 carp_pathogens <- carpe_data |>
   select(virus_1, virus_2, virus_3, viraltestrun, bacteria_1, bacterialtestrun) |>
@@ -95,20 +97,46 @@ meep_pathogens <- meep |>
   ) 
  
 
-type <- c(rep(1,dim(carp_pathogens)[1]), rep(0,dim(meep_pathogens)[1]))
+
  
 pathogen_data <- bind_rows(carp_pathogens, meep_pathogens)
 
-MBS <- pathogen_data |> 
-  select(FLUA:PARAFLU4, MycoPCR)
+pathogen_data_trimmed <- pathogen_data |> 
+  select(!PARAFLU2) |> 
+  select(!c(S_PNEU, CHLAM, LEGI, HAEM, S_PYOG, KLEB, PERT))
 
-MSS <- pathogen_data |> 
-  select(S_PNEU, CHLAM:PERT)
+pathogen_data_grouped <- pathogen_data_trimmed |>
+  mutate(
+    Virus = case_when(
+      FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus > 0 ~ 1,
+      .default = 0
+    )
+  ) |> 
+  rename(Rhinovirus = HRV_Entero) |> 
+  select(!c(FLUA:HMPV, Adenovirus:PARAFLU4))
+
+  
 
 
 
 
+Y <- c(rep(1,dim(carp_pathogens)[1]), rep(0,dim(meep_pathogens)[1]))
 
+#########
+
+bronze <- pathogen_data_grouped |> 
+  select(Rhinovirus, MycoPCR, Virus)
+
+silver <- pathogen_data_grouped |> 
+  select(STAPH)
+
+MBS <- list(MBS1 = bronze) #MBS2 = MBS_B)
+
+MSS <- list(MSS1 = silver)
+
+Mobs <- list(MBS=MBS,MSS=MSS,MGS=NULL)
+
+data_nplcm <- list(Mobs = Mobs, Y = Y, X = NULL)
 
 
 
