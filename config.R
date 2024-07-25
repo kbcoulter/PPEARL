@@ -11,8 +11,8 @@ library(ggplot2)
 
 preprocessing <- "data_preparation/preprocessing.R"
 pathogen_data_formatting <- "data_preparation/pathogen_data_formatting.R"
-piecharts <- "visualizations/piecharts.R"
+barcharts <- "visualizations/BarCharts.R"
 
 source(preprocessing)
-source(piecharts)
+source(barcharts)
 source(pathogen_data_formatting)
