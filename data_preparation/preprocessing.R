@@ -177,10 +177,9 @@ for (col in missing_cols_meep) {
   meep[[col]] <- NA
 }
 
-##### Drop rows where viral and bacterial tests were not run 
-# For Merged, Carpe, NOT MEEP
+##### Drop rows where BOTH viral and bacterial tests were not run 
 carpe <- carpe %>%
-  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
+  filter(!(is.na(viraltestrun) & is.na(bacterialtestrun)))
 
 merged <- merge(carpe, meep, by = intersect(names(carpe), names(meep)), all = TRUE)
 
