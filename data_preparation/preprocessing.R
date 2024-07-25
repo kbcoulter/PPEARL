@@ -158,7 +158,8 @@ carpe$study_id <- sapply(carpe$study_id, function(x) paste0("c", x))
 stringsAsFactors = FALSE
 meep$study_id <- as.character(meep$study_id)
 meep$study_id <- sapply(meep$study_id, function(x) paste0("m", x))
-
+meep <- meep[!is.na(meep$Lmnx_SampleID), ]
+                        
 ##### Merging Data
 all_columns <- union(names(carpe), names(meep))
 
