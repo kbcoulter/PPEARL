@@ -1,38 +1,21 @@
 bronze_causes <- c(
-  "FLUA",
-  "FLUB",
-  "RSV",
-  "Coronavirus",
-  "HMPV",
-  "HRV_Entero",
-  "Adenovirus",
-  "PARAFLU1",
-  "PARAFLU2",
-  "PARAFLU3",
-  "PARAFLU4",
-  "Bocavirus",
+  "Rhinovirus",
+  "Virus",
   "MycoPCR"
 )
 
-silver_causes <- c("S_PNEU",
-                   "CHLAM",
-                   "LEGI",
-                   "HAEM",
-                   "STAPH",
-                   "S_PYOG",
-                   "KLEB",
-                   "PERT")
+silver_causes <- c("STAPH")
 cause_list <- c(bronze_causes, silver_causes)
 
-J.BrS_1 <- 13
+J.BrS_1 <- 3
 J.BrS_2 <- 1
 
-J.SS <- 8
+J.SS <- 1
 
 model_options_no_reg <- list(
   likelihood   = list(
     cause_list = cause_list,
-    k_subclass = c(5),
+    k_subclass = c(1),
     #k_subclass = c(5,5), # Chosen
     Eti_formula = ~ -1,
     # no covariate for the etiology regression
