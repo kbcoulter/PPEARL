@@ -115,10 +115,8 @@ pathogen_data_grouped <- pathogen_data_trimmed |>
   rename(Rhinovirus = HRV_Entero) |> 
   select(!c(FLUA:HMPV, Adenovirus:PARAFLU4))
 
-  
 
-
-
+write.csv(pathogen_data_grouped, "pathogen_data_grouped.csv", row.names = FALSE) 
 
 Y <- c(rep(1,dim(carp_pathogens)[1]), rep(0,dim(meep_pathogens)[1]))
 
