@@ -231,6 +231,11 @@ drop = names(missing[missing > thresh])
 merged_clean = merged[, !(names(merged) %in% drop)]
 #ncol(merged_clean)
 
+# Binary Transformation  -------------------------------------------------------
+merged_clean$severity2 <- ifelse(merged_clean$severity2 > 2, 1, 0)
+merged_clean$season <- ifelse(merged_clean$season == 1 | merged_clean$season == 4, 1, 0)
+merged_clean$age_yr <- ifelse(merged_clean$age_yr > 1, 1, 0)
+
 # write.csv(merged, "merged_data.csv", row.names = FALSE) #For no threshold drop
 write.csv(merged_clean, "merged_data.csv", row.names = FALSE)
 
