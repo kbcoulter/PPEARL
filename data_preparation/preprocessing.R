@@ -138,8 +138,7 @@ columns_to_cut = c(
   'STGG_lytA_Copies',
   'WBC1',
   'CRP1',
-  'radreviews',
-  'severity2'
+  'radreviews'
 )
 #length(columns_to_cut)
 
@@ -158,10 +157,12 @@ carpe$study_id <- sapply(carpe$study_id, function(x) paste0("c", x))
 stringsAsFactors = FALSE
 meep$study_id <- as.character(meep$study_id)
 meep$study_id <- sapply(meep$study_id, function(x) paste0("m", x))
-                        
-##### Drop When Meep Lmnx SampleID was not run.         
+##### General Meep Transformations
+# Drop When Meep Lmnx SampleID was not run. 
 meep <- meep[!is.na(meep$Lmnx_SampleID), ]
-                        
+# Add 0s for severity 2 in meep (As Control, All severity = 0)
+meep$severity2 <- 0
+
 ##### Merging Data
 all_columns <- union(names(carpe), names(meep))
 
@@ -181,6 +182,10 @@ for (col in missing_cols_meep) {
 # For Merged, Carpe, NOT MEEP
 carpe <- carpe %>%
   filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
+
+##### Drop rows where BOTH viral and bacterial tests were not run 
+#carpe <- carpe %>%
+#  filter(!(is.na(viraltestrun) & is.na(bacterialtestrun)))
 
 merged <- merge(carpe, meep, by = intersect(names(carpe), names(meep)), all = TRUE)
 
@@ -288,6 +293,12 @@ meep[] = lapply(meep, function(x) {
 thresh = threshold * nrow(meep)
 missing = sapply(meep, function(x) sum(is.na(x)))
 drop = names(missing[missing > thresh])
+meep_clean = meep[, !(names(meep) %in% drop)]
+#ncol(meep_clean)
+
+write.csv(meep_clean, "meep_clean.csv", row.names = FALSE)
+
+
 meep_clean = meep[, !(names(meep) %in% drop)]
 #ncol(meep_clean)
 
