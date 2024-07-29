@@ -303,20 +303,3 @@ meep_clean = meep[, !(names(meep) %in% drop)]
 
 write.csv(meep_clean, "meep_clean.csv", row.names = FALSE)
 
-# COVARIATE DATA PREP ----------------------------------------------------------
-##### Input chosen covariates
-selected_columns = c('age_yr', 'severity2', 'season')
-
-##### Process (Ignore)
-selected_columns_sid = c(selected_columns,'study_id')
-
-merged <- read_csv("merged_data.csv")
-pd <- read_csv("pathogen_data_grouped.csv")
-
-corr_df = cbind(merged[selected_columns],pd) 
-corr_df <- mutate_all(corr_df, function(x) as.numeric(as.character(x)))
-write.csv(corr_df, "corr_df.csv", row.names = FALSE) 
-
-pd_w_covar = cbind(merged[selected_columns_sid],pd) 
-write.csv(pd_w_covar, "pd_w_covar.csv", row.names = FALSE) 
-
