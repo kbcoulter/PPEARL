@@ -1,7 +1,5 @@
 ##### Correlation Vis
 
-##### TODO: Change to import df from preprocessing with selected variables
-
 # Functions ------------------------------------------------
 
 ##### Function: flat_corr_matrix -> flatten A Correlation Matrix
