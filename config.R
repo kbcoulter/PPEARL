@@ -12,7 +12,9 @@ library(ggplot2)
 preprocessing <- "data_preparation/preprocessing.R"
 pathogen_data_formatting <- "data_preparation/pathogen_data_formatting.R"
 barcharts <- "visualizations/BarCharts.R"
+covariates <-"visualizations/correlations_covariates.R"
 
 source(preprocessing)
 source(barcharts)
 source(pathogen_data_formatting)
+source(covariates)
