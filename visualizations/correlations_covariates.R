@@ -37,10 +37,14 @@ plot_corr_matrix <- function(df) {
   return(cor_plot)
 }
 
-# Use ------------------------------------------------
+# Use -------------------------------------------------------------------------
 ##### Process (Ignore)
 corr_df <- read_csv("corr_df.csv")
+
 # Listed and Plotted Correlations
 listed = list_corr_matrix(corr_df)
+
+#new_labels = c('Age (Year)', 'Severity', 'Season', 'Rhinovirus','MycoPCR','STAPH','Virus')
+#plot = plot_corr_matrix(corr_df, new_labels)
 plot = plot_corr_matrix(corr_df)
 plot
