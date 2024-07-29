@@ -1,4 +1,6 @@
-##### Correlation Vis Func and COVARIATE DATA PREP
+##### Correlation Vis
+
+##### TODO: Change to import df from preprocessing with selected variables
 
 # Functions ------------------------------------------------
 
@@ -38,21 +40,9 @@ plot_corr_matrix <- function(df) {
 }
 
 # Use ------------------------------------------------
-##### CHOOSE VARIABLES OF INTEREST
-selected_columns = c('age_yr', 'severity2', 'season')
-
 ##### Process (Ignore)
-library(readr)
-merged <- read_csv("merged_data.csv")
-pd <- read_csv("pathogen_data_grouped.csv")
-
-corr_df = cbind(merged[selected_columns],pd) 
-corr_df <- mutate_all(corr_df, function(x) as.numeric(as.character(x)))
-
-pd_w_covar = cbind(merged[c('age_yr', 'severity2', 'season','study_id')],pd) 
-write.csv(pd_w_covar, "pd_w_covar.csv", row.names = FALSE) 
-
-##### Listed and Plotted Correlations
+corr_df <- read_csv("corr_df.csv")
+# Listed and Plotted Correlations
 listed = list_corr_matrix(corr_df)
 plot = plot_corr_matrix(corr_df)
 plot
