@@ -1,4 +1,4 @@
-##### Correlation
+##### Correlations and Covariates
 
 # Functions ------------------------------------------------
 
@@ -45,8 +45,12 @@ selected_columns = c('age_yr', 'severity2', 'season')
 library(readr)
 merged <- read_csv("merged_data.csv")
 pd <- read_csv("pathogen_data_grouped.csv")
+
 corr_df = cbind(merged[selected_columns],pd) 
 corr_df <- mutate_all(corr_df, function(x) as.numeric(as.character(x)))
+
+merged_w_covar = cbind(merged[c('age_yr', 'severity2', 'season','study_id')],pd) 
+write.csv(merged_w_covar, "pd_w_covar.csv", row.names = FALSE) 
 
 ##### Listed and Plotted Correlations
 listed = list_corr_matrix(corr_df)
