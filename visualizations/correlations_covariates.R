@@ -1,4 +1,4 @@
-##### Correlations and Covariates
+##### Correlation Vis Func and COVARIATE DATA PREP
 
 # Functions ------------------------------------------------
 
