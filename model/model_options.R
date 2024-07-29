@@ -7,7 +7,7 @@ bronze_causes <- c(
 silver_causes <- c("STAPH")
 cause_list <- c(bronze_causes, silver_causes)
 
-J.BrS_1 <- 3
+J.BrS_1 <- 2
 J.BrS_2 <- 1
 
 J.SS <- 1
@@ -15,11 +15,11 @@ J.SS <- 1
 model_options_no_reg <- list(
   likelihood   = list(
     cause_list = cause_list,
-    k_subclass = c(1),
+    k_subclass = c(1,1),
     #k_subclass = c(5,5), # Chosen
     Eti_formula = ~ -1,
     # no covariate for the etiology regression
-    FPR_formula = list(MBS1 =   ~ -1) #MBS2 = ~ -1)    # no covariate for the subclass weight regression
+    FPR_formula = list(MBS1 =   ~ -1,MBS2 =   ~ -1) #MBS2 = ~ -1)    # no covariate for the subclass weight regression
   ),
   use_measurements = c("BrS", "SS"),
   # use bronze-standard data only for model estimation.
@@ -34,7 +34,9 @@ model_options_no_reg <- list(
       # specify the informative prior for TPRs by specifying a plausible range.
           val = list(
             MBS1 = list(up =  list(rep(0.99, J.BrS_1)), # upper ranges: matched to 97.5% quantile of a Beta prior
-                    low = list(rep(0.55, J.BrS_1))))) #MBS2 = list(up =  list(rep(0.99, J.BrS_2)), # upper ranges: matched to 97.5% quantile of a Beta prior
+                    low = list(rep(0.55, J.BrS_1))),
+            MBS2 = list(up =  list(rep(0.90, J.BrS_2)), # upper ranges: matched to 97.5% quantile of a Beta prior
+                  low = list(rep(0.50, J.BrS_2))))) #MBS2 = list(up =  list(rep(0.99, J.BrS_2)), # upper ranges: matched to 97.5% quantile of a Beta prior
         #low = list(rep(0.55, J.BrS_2))))
         # lower ranges: matched to 2.5% quantile of a Beta prior
         ,
@@ -45,8 +47,8 @@ model_options_no_reg <- list(
           input = "match_range",
           # specify the informative prior for TPRs by specifying a plausible range.
           val = list(
-            MSS1 = list(up =  list(rep(0.99, J.SS)), # upper ranges: matched to 97.5% quantile of a Beta prior
-                    low = list(rep(0.55, J.SS))))
+            MSS1 = list(up =  list(rep(0.15, J.SS)), # upper ranges: matched to 97.5% quantile of a Beta prior
+                    low = list(rep(0.05, J.SS))))
           
         )
     

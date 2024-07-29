@@ -107,7 +107,7 @@ pathogen_data_trimmed <- pathogen_data |>
 
 pathogen_data_grouped <- pathogen_data_trimmed |>
   mutate(
-    Virus = case_when(
+    Virus = case_when(is.na(FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus) ~ NA,
       FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus > 0 ~ 1,
       .default = 0
     )
@@ -115,20 +115,23 @@ pathogen_data_grouped <- pathogen_data_trimmed |>
   rename(Rhinovirus = HRV_Entero) |> 
   select(!c(FLUA:HMPV, Adenovirus:PARAFLU4))
 
+  
 
-write.csv(pathogen_data_grouped, "pathogen_data_grouped.csv", row.names = FALSE) 
+
+
 
 Y <- c(rep(1,dim(carp_pathogens)[1]), rep(0,dim(meep_pathogens)[1]))
 
 #########
 
 bronze <- pathogen_data_grouped |> 
-  select(Rhinovirus, MycoPCR, Virus)
-
+  select(Rhinovirus, Virus)
+bronze_2 <- pathogen_data_grouped |> 
+  select(MycoPCR)
 silver <- pathogen_data_grouped |> 
   select(STAPH)
 
-MBS <- list(MBS1 = bronze) #MBS2 = MBS_B)
+MBS <- list(MBS1 = bronze, MBS2=bronze_2) #MBS2 = MBS_B)
 
 MSS <- list(MSS1 = silver)
 

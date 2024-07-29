@@ -8,12 +8,13 @@ library(tidyverse)
 library(readxl)
 library(corrplot)
 library(Hmisc)
+library(baker)
 
 # Data Collection / Organization------------------------------------------------
 ##### Set File Path, threshold, columns needing NA -> 0, columns to omit
-c_filepath = "copy of CarpeData.csv"
-m_filepath = "Copy of MEEPData.xlsx"
-l_filepath = "LilliamKAwardDatasetSpecifications.xlsx"
+c_filepath = "../Baker/Dataset/CarpeData.csv"
+m_filepath = "../Baker/Dataset/MEEPData.xlsx"
+l_filepath = "../Baker/Dataset/D.xlsx"
 
 threshold = 0.9
 
@@ -138,7 +139,8 @@ columns_to_cut = c(
   'STGG_lytA_Copies',
   'WBC1',
   'CRP1',
-  'radreviews'
+  'radreviews',
+  'severity2'
 )
 #length(columns_to_cut)
 
@@ -157,12 +159,10 @@ carpe$study_id <- sapply(carpe$study_id, function(x) paste0("c", x))
 stringsAsFactors = FALSE
 meep$study_id <- as.character(meep$study_id)
 meep$study_id <- sapply(meep$study_id, function(x) paste0("m", x))
-##### General Meep Transformations
-# Drop When Meep Lmnx SampleID was not run. 
+                        
+##### Drop When Meep Lmnx SampleID was not run.         
 meep <- meep[!is.na(meep$Lmnx_SampleID), ]
-# Add 0s for severity 2 in meep (As Control, All severity = 0)
-meep$severity2 <- 0
-
+                        
 ##### Merging Data
 all_columns <- union(names(carpe), names(meep))
 
@@ -181,11 +181,7 @@ for (col in missing_cols_meep) {
 ##### Drop rows where viral or bacterial tests were not run 
 # For Merged, Carpe, NOT MEEP
 carpe <- carpe %>%
-  filter(!is.na(viraltestrun) & !is.na(bacterialtestrun))
-
-##### Drop rows where BOTH viral and bacterial tests were not run 
-#carpe <- carpe %>%
-#  filter(!(is.na(viraltestrun) & is.na(bacterialtestrun)))
+  filter(!is.na(viraltestrun) | !is.na(bacterialtestrun))
 
 merged <- merge(carpe, meep, by = intersect(names(carpe), names(meep)), all = TRUE)
 
@@ -231,11 +227,6 @@ drop = names(missing[missing > thresh])
 merged_clean = merged[, !(names(merged) %in% drop)]
 #ncol(merged_clean)
 
-# Binary Transformation  -------------------------------------------------------
-merged_clean$severity2 <- ifelse(merged_clean$severity2 > 2, 1, 0)
-merged_clean$season <- ifelse(merged_clean$season == 1 | merged_clean$season == 4, 1, 0)
-merged_clean$age_yr <- ifelse(merged_clean$age_yr > 1, 1, 0)
-
 # write.csv(merged, "merged_data.csv", row.names = FALSE) #For no threshold drop
 write.csv(merged_clean, "merged_data.csv", row.names = FALSE)
 
@@ -271,7 +262,7 @@ carpe_clean = carpe[, !(names(carpe) %in% drop)]
 
 write.csv(carpe_clean, "carpe_clean.csv", row.names = FALSE)
 
-# Meep Work --------------------------------------------------------------------
+# Meep Work ------------------------------------------------------------------
 #Can Comment Out Later if N/A
 
 ##### Replace NA with 0 in the specified columns
@@ -319,4 +310,3 @@ write.csv(corr_df, "corr_df.csv", row.names = FALSE)
 
 pd_w_covar = cbind(merged[selected_columns_sid],pd) 
 write.csv(pd_w_covar, "pd_w_covar.csv", row.names = FALSE) 
-

@@ -10,8 +10,8 @@ dir.create(thedir, showWarnings = FALSE)
 mcmc_options_no_reg <- list(
   debugstatus = TRUE,
   n.chains = 1,
-  n.itermcmc = as.integer(200),
-  n.burnin = as.integer(100),
+  n.itermcmc = as.integer(1000),
+  n.burnin = as.integer(200),
   n.thin = 1,
   individual.pred = TRUE,
   # <- must set to TRUE! <------- NOTE!
@@ -21,9 +21,17 @@ mcmc_options_no_reg <- list(
 )
 
 BrS_object_1 <- make_meas_object(
-  patho = bronze_causes,
+  patho = c("Rhinovirus","Virus"),
   specimen = "MBS",
   test = "1",
+  quality = "BrS",
+  cause_list = cause_list
+)
+
+BrS_object_2 <- make_meas_object(
+  patho = c("MycoPCR"),
+  specimen = "MBS",
+  test = "2",
   quality = "BrS",
   cause_list = cause_list
 )
@@ -36,7 +44,7 @@ SS_object_1 <- make_meas_object(
   cause_list = cause_list
 )
 
-clean_options <- list(BrS_objects = make_list(BrS_object_1),
+clean_options <- list(BrS_objects = make_list(BrS_object_1,BrS_object_2),
                       SS_objects = make_list(SS_object_1))
 
 # place the nplcm data and cleaning options into the results folder
