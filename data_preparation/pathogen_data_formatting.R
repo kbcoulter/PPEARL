@@ -1,6 +1,10 @@
+##### Input chosen covariates
+selected_columns = c('age_yr', 'severity2', 'season')
 
 carpe_data <- carpe_clean
 meep <- meep_clean
+# merged <- read_csv("merged_data.csv")
+merged <- merged_clean
 
 carp_pathogens <- carpe_data |>
   select(virus_1, virus_2, virus_3, viraltestrun, bacteria_1, bacterialtestrun) |>
@@ -117,6 +121,19 @@ pathogen_data_grouped <- pathogen_data_trimmed |>
 
 
 write.csv(pathogen_data_grouped, "pathogen_data_grouped.csv", row.names = FALSE) 
+
+# COVARIATE DATA PREP ----------------------------------------------------------
+
+##### Process (Ignore)
+selected_columns_sid = c(selected_columns,'study_id')
+
+corr_df = cbind(merged[selected_columns],pathogen_data_grouped) 
+corr_df <- mutate_all(corr_df, function(x) as.numeric(as.character(x)))
+write.csv(corr_df, "corr_df.csv", row.names = FALSE) 
+
+pd_w_covar = cbind(merged[selected_columns_sid],pathogen_data_grouped) 
+write.csv(pd_w_covar, "pd_w_covar.csv", row.names = FALSE) 
+# -----------------------------------------------------------------------------                      
 
 Y <- c(rep(1,dim(carp_pathogens)[1]), rep(0,dim(meep_pathogens)[1]))
 
