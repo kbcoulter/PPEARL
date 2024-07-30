@@ -109,6 +109,7 @@ pathogen_data_trimmed <- pathogen_data |>
   select(!PARAFLU2) |> 
   select(!c(S_PNEU, CHLAM, LEGI, HAEM, S_PYOG, KLEB, PERT))
 
+##### Dropping where no viral AND no bacterial -> Preprocessing
 pathogen_data_grouped <- pathogen_data_trimmed |>
   mutate(
     Virus = case_when(is.na(FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus) ~ NA,
@@ -119,6 +120,16 @@ pathogen_data_grouped <- pathogen_data_trimmed |>
   rename(Rhinovirus = HRV_Entero) |> 
   select(!c(FLUA:HMPV, Adenovirus:PARAFLU4))
 
+##### Dropping where no viral OR no bacterial -> Preprocessing
+#pathogen_data_grouped <- pathogen_data_trimmed |>
+#  mutate(
+#    Virus = case_when(
+#      FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus > 0 ~ 1,
+#      .default = 0
+#    )
+#  ) |> 
+#  rename(Rhinovirus = HRV_Entero) |> 
+#  select(!c(FLUA:HMPV, Adenovirus:PARAFLU4))
 
 write.csv(pathogen_data_grouped, "pathogen_data_grouped.csv", row.names = FALSE) 
 
