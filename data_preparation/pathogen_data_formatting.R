@@ -111,9 +111,9 @@ pathogen_data_trimmed <- pathogen_data |>
 
 pathogen_data_grouped <- pathogen_data_trimmed |>
   mutate(
-    Virus = case_when(
-      FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus > 0 ~ 1,
-      .default = 0
+    Virus = case_when(is.na(FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus) ~ NA,
+                      FLUA + FLUB + PARAFLU1 + PARAFLU3 + PARAFLU4 + RSV + HMPV + Adenovirus + Coronavirus + Bocavirus > 0 ~ 1,
+                      .default = 0
     )
   ) |> 
   rename(Rhinovirus = HRV_Entero) |> 
@@ -152,7 +152,6 @@ MSS <- list(MSS1 = silver)
 Mobs <- list(MBS=MBS,MSS=MSS,MGS=NULL)
 
 data_nplcm <- list(Mobs = Mobs, Y = Y, X = NULL)
-
 
 
 
