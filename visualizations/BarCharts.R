@@ -36,7 +36,23 @@ virus_counts = table(Virus_Pathogen_ID_Carpe)
 virus_counts = data.frame(virus_counts)
 virus_counts = mutate(virus_counts, Freq)
 
-p = ggplot(virus_counts, aes(x = Virus_Pathogen_ID_Carpe, y = Freq, fill = Virus_Pathogen_ID_Carpe )) + geom_col(position = "stack")  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d()
+p = ggplot(
+  virus_counts,
+  aes(x = Virus_Pathogen_ID_Carpe, y = Freq, fill = Virus_Pathogen_ID_Carpe)
+) + geom_col(position = "stack")  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d() +  theme(
+  legend.position = c('11_Human Bocavirus', 300),
+  legend.justification = c(0.7, 1),
+  axis.title = element_text(size = 16),
+  # Increase size of axis text
+  axis.text = element_text(size = 18),
+  # Increase size of legend title
+  legend.title = element_text(size = 18),
+  # Increase size of legend text
+  legend.text = element_text(size = 17),
+  # Increase size of plot title
+  plot.title = element_text(size = 20)
+)  # x and y positions
+
 p
 png("barchart1.png", width = 800, height = 800)
 print(p)
@@ -53,7 +69,20 @@ Bacteria_ID_Carpe <- ifelse(Bacteria_ID_Carpe == 6, "06_Staphylococcus Aureus" ,
 bact_count = data.frame(table(Bacteria_ID_Carpe))
 bact_count = mutate(bact_count, Freq)
 
-q = ggplot(bact_count, aes(x = Bacteria_ID_Carpe, y = Freq , fill = Bacteria_ID_Carpe)) + geom_col(position = "stack" )  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d()
+q = ggplot(bact_count, aes(x = Bacteria_ID_Carpe, y = Freq , fill = Bacteria_ID_Carpe)) + geom_col(position = "stack" )  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d() + theme(
+  legend.position = c('06_Staphylococcus Aureus', 500),
+  legend.justification = c(0.7, 1),
+  axis.title = element_text(size = 16),
+  # Increase size of axis text
+  axis.text = element_text(size = 18),
+  # Increase size of legend title
+  legend.title = element_text(size = 18),
+  # Increase size of legend text
+  legend.text = element_text(size = 17),
+  # Increase size of plot title
+  plot.title = element_text(size = 20)
+)  # x and y positions
+
 q
 png("barchart2.png", width = 800, height = 800)
 print(q)
@@ -81,7 +110,20 @@ Virus_Pathogen_ID_Meep <- ifelse(Virus_Pathogen_ID_Meep == 11, "11_Human Bocavir
 virus_counts = table(Virus_Pathogen_ID_Meep)
 virus_counts = data.frame(virus_counts)
 virus_counts = mutate(virus_counts, Freq)
-r = ggplot(virus_counts, aes(x = Virus_Pathogen_ID_Meep, y = Freq, fill = Virus_Pathogen_ID_Meep )) + geom_col(position = "stack")  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d()
+r = ggplot(virus_counts, aes(x = Virus_Pathogen_ID_Meep, y = Freq, fill = Virus_Pathogen_ID_Meep )) + geom_col(position = "stack")  + theme(axis.text.x = element_blank()) + labs(y = "Count") + scale_fill_viridis_d() +theme(
+  legend.position = c('03_Parainfluenza 1', 100),
+  legend.justification = c(0.7, 1),
+  axis.title = element_text(size = 16),
+  # Increase size of axis text
+  axis.text = element_text(size = 18),
+  # Increase size of legend title
+  legend.title = element_text(size = 18),
+  # Increase size of legend text
+  legend.text = element_text(size = 17),
+  # Increase size of plot title
+  plot.title = element_text(size = 20)
+)  # x and y positions
+
 r
 
 png("barchart3.png", width = 800, height = 800)
