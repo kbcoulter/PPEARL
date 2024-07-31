@@ -27,14 +27,21 @@ list_corr_matrix <- function(df) {
   return(result_unique)
 }
 
-plot_corr_matrix <- function(df) {
-  res = rcorr(as.matrix(df))
+plot_corr_matrix <- function(df, new_labels = NULL) {
+  res <- rcorr(as.matrix(df))
   cor_matrix <- res$r
-  cor_plot = corrplot(cor_matrix, method = "circle", col = colorRampPalette(c("blue", "purple", "red"))(200),
-                      tl.cex = 1,
-                      cl.cex = 0.8,
-                      tl.col = "black",
-                      type = "upper")
+  
+  if (!is.null(new_labels) && length(new_labels) == ncol(df)) {
+    colnames(cor_matrix) <- new_labels
+    rownames(cor_matrix) <- new_labels
+  }
+  
+  cor_plot <- corrplot(cor_matrix, method = "circle", 
+                       col = colorRampPalette(c("blue", "purple", "red"))(200),
+                       tl.cex = 1,
+                       cl.cex = 0.8,
+                       tl.col = "black",
+                       type = "upper")
   return(cor_plot)
 }
 
@@ -45,7 +52,9 @@ corr_df <- read_csv("corr_df.csv")
 # Listed and Plotted Correlations
 listed = list_corr_matrix(corr_df)
 
+##### Ours Specifically
 #new_labels = c('Age (Year)', 'Severity', 'Season', 'Rhinovirus','MycoPCR','STAPH','Virus')
 #plot = plot_corr_matrix(corr_df, new_labels)
 plot = plot_corr_matrix(corr_df)
 plot
+
