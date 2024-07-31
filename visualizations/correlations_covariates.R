@@ -33,7 +33,8 @@ plot_corr_matrix <- function(df) {
   cor_plot = corrplot(cor_matrix, method = "circle", col = colorRampPalette(c("blue", "purple", "red"))(200),
                       tl.cex = 1,
                       cl.cex = 0.8,
-                      tl.col = "black")
+                      tl.col = "black",
+                      type = "upper")
   return(cor_plot)
 }
 
