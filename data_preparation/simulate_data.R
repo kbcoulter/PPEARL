@@ -1,4 +1,6 @@
 library(baker)
+
+##### From Baker Package Vignettes -> Unchanged
 # Note: the example will only run 100 Gibbs sampling steps to save computing time.
 # To produce useful posterior inferences, please modify "mcmc_options" as follows
 #                      "n.itermcmc" to 50000
