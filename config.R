@@ -9,6 +9,9 @@ library(knitr)
 library(corrplot)
 library(Hmisc)
 library(ggplot2)
+library(ggstats)
+library(coda)
+library(ggmcmc)
 
 ##### filepaths
 preprocessing <- "data_preparation/preprocessing.R"
