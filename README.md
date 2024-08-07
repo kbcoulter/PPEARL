@@ -5,7 +5,7 @@ cause of death in children worldwide. Correct microbial diagnosis to determine e
 but is currently achieved in under 50% of cases. This is largely due to a lack of non-invasive tests with acceptable sensitivity, compounded 
 by the co-occurrence of pathogens in asymptomatic patients.
 
-We present PPEARL, a partial latent class model (pLCM), built on an enriched set of clinical markers from the CARPE DIEM1 and MEEP2 datasets as 
+We present PPEARL, a partial latent class model (pLCM), built on an enriched set of clinical markers from the CARPE DIEM and MEEP datasets as 
 a computational approach to determine pathogen etiology.
 
 To determine an individual’s latent lung infection status based on partial knowledge from multivariates, heterogeneous measurements, and discrete 
