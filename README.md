@@ -12,7 +12,7 @@ To determine an individual’s latent lung infection status based on partial kno
 latent and observed variables are fitted with a Partial Latent Class Model utilizing the R package [BAKER](https://CRAN.R-project.org/package=baker), and priors from a previous model and research study, [PERCH](https://pubmed.ncbi.nlm.nih.gov/31257127/).
 
 # **Currently:**
-Refinement and analysis of additional covariates are ongoing to improve the model's accuracy (requiring data simulation). 
+Refinement and analysis of additional covariates is ongoing to improve the model's accuracy (requiring data simulation). 
 
 Further data assessing metabolite presence in patients, related to pathogen etiology in pneumonia, remains to be analyzed.
 
