@@ -21,3 +21,4 @@ pediatric pneumonia patients.
 
 # If you have questions, comments or inquiries, please reach out!
 
+![Final Poster](https://github.com/user-attachments/assets/3546505b-d8ca-4d36-9682-100fdbc8349c)
