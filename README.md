@@ -1,4 +1,4 @@
-# **PPEARL** - Pediatric Pneumonia Etiology Analysis applying an R Latent model
+# **PPEARL** - (P)ediatric (P)neumonia (E)tiology (A)nalysis applying an (R) (L)atent model
 
 Pediatric community-acquired pneumonia (CAP) leads to 1.8 million healthcare visits in the US every year and is the single largest infectious 
 cause of death in children worldwide. Correct microbial diagnosis to determine etiology is fundamental for appropriate treatment and research 
