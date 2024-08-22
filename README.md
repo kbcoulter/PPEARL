@@ -6,7 +6,7 @@ but is currently achieved in under 50% of cases. This is largely due to a lack o
 by the co-occurrence of pathogens in asymptomatic patients.
 
 We present PPEARL, a partial latent class model (pLCM), built on an enriched set of clinical markers from the CARPE DIEM and MEEP datasets as 
-a computational approach to determine individual's latent lung infection status based on partial information from multivariate. Implemented with 
+a computational approach to determine individual's latent lung infection status based on partial multivariate data. Implemented with 
 the R package [BAKER](https://CRAN.R-project.org/package=baker), PPEARL integrates heterogeneous measurements and both latent and observed 
 variables, utilizing priors from the [PERCH](https://pubmed.ncbi.nlm.nih.gov/31257127/) model and related research. 
 
