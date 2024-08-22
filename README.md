@@ -6,18 +6,17 @@ but is currently achieved in under 50% of cases. This is largely due to a lack o
 by the co-occurrence of pathogens in asymptomatic patients.
 
 We present PPEARL, a partial latent class model (pLCM), built on an enriched set of clinical markers from the CARPE DIEM and MEEP datasets as 
-a computational approach to determine pathogen etiology.
-
-To determine an individual’s latent lung infection status based on partial knowledge from multivariates, heterogeneous measurements, and discrete 
-latent and observed variables are fitted with a Partial Latent Class Model utilizing the R package [BAKER](https://CRAN.R-project.org/package=baker), and priors from a previous model and research study, [PERCH](https://pubmed.ncbi.nlm.nih.gov/31257127/).
+a computational approach to determine individual's latent lung infection status based on partial information from multivariate. Implemented with 
+the R package [BAKER](https://CRAN.R-project.org/package=baker), PPEARL integrates heterogeneous measurements and both latent and observed 
+variables, utilizing priors from the [PERCH](https://pubmed.ncbi.nlm.nih.gov/31257127/) model and related research. 
 
 # **Currently:**
-Refinement and analysis of additional covariates is ongoing to improve the model's accuracy (requiring data simulation). 
+Refinement and analysis of additional covariates is ongoing to improve model accuracy (requiring data simulation). 
 
 Further data assessing metabolite presence in patients, related to pathogen etiology in pneumonia, remains to be analyzed.
 
-We aim to provide a thorough description of the methods used to allow for application in broader medical settings to aid in further pathogen identification research for 
-pediatric pneumonia patients.
+We aim to provide a thorough description of the methods used to allow for application in broader medical settings and to aid in further pathogen 
+identification research for pediatric pneumonia patients.
 
 # If you have questions, comments or inquiries, please reach out!
 
